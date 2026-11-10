@@ -55,7 +55,7 @@ h2.b:before{background:var(--bl)}h2.g:before{background:var(--gr)}
 .card.t.b .th:after{background:var(--bl)}.card.t.g .th:after{background:var(--gr)}
 .card.t .tx{padding:11px 14px;align-self:center}.card.t .ic{display:none}
 .card.t .nm{font-weight:800}
-@media(min-width:900px){.win{max-width:1080px}#main{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}.grp>h2{margin-top:16px}
+@media(min-width:900px){.win{max-width:820px}#main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}.grp>h2{margin-top:16px}
 .card.t{flex-direction:column;align-items:stretch}.card.t .th{width:auto;height:92px;min-height:0}
 .card.t .th:after{left:0;right:0;top:auto;bottom:0;width:auto;height:5px}.card.t .tx{padding:10px 14px 13px;align-self:stretch}}
 </style></head>
@@ -75,9 +75,8 @@ var GRUPOS=[
   {id:'diag',n:'GS Diagnósticos',d:'Visitas de campo, UNC, CD, suspensiones, informe Word y NITS.',i:'🧭',c:'',u:'https://gsdiagnosticosapp.vercel.app/'},
   {id:'ap',n:'GS Alumbrado Público',d:'Inventario de alumbrado público en campo, con programación por cuadrilla (funciona sin conexión).',i:'💡',c:'',u:'https://alumbradopublico.vercel.app/'},
   {id:'docs',n:'GS Docs',d:'Formatos ESPT / GSOCIAL: E1, E6, AR, DJ, RETIE, firmas y exportación.',i:'📄',c:'',u:'https://gsdocumentos.vercel.app/'}]},
- {t:'Documentos',k:'b',apps:[
-    {id:'firmas',n:'GS Firmas',d:'Firma única de líderes comunales aplicada a los 5 documentos.',i:'✍️',c:'b',u:'https://gsdocumentos.vercel.app/gs-firmas/'}]},
- {t:'Edición',k:'g',apps:[
+ {t:'Documentos y edición',k:'g',apps:[
+  {id:'firmas',n:'GS Firmas',d:'Firma única de líderes comunales aplicada a los 5 documentos.',i:'✍️',c:'g',u:'https://gsdocumentos.vercel.app/gs-firmas/'},
   {id:'editor',n:'GS Editor',d:'Control de calidad y corrección de paquetes ZIP de GS Docs.',i:'🛠️',c:'g',u:'https://gsdocumentos.vercel.app/editor-pc/',pc:1},
   {id:'studio',n:'GS Studio',d:'Escanear documentos, firmar y editar PDF.',i:'📷',c:'g',u:'https://gsstudio.vercel.app/'}]}
 ];
@@ -124,7 +123,7 @@ function sizeWindow(){
   try{
     if(!matchMedia('(display-mode: standalone)').matches||screen.availWidth<900)return;
     var dW=outerWidth-innerWidth,dH=outerHeight-innerHeight;
-    var tw=Math.min(1100,screen.availWidth-40)+dW;
+    var tw=Math.min(840,screen.availWidth-40)+dW;
     window.resizeTo(tw,Math.min(outerHeight,screen.availHeight-24));
     setTimeout(function(){
       var w=document.querySelector('.win');w.style.zoom=1;
