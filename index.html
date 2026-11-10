@@ -4,44 +4,55 @@
 <title>GS Suite · Gestión Social</title>
 <meta name="theme-color" content="#FF6600"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--or:#FF6600;--gr:#C1C7CE;--bl:#79D1FF;--bg:#FEFEFF;--ink:#1B2430;--mut:#5B6675;--card:#fff;--line:#E3E7EC;--sh:0 2px 10px rgba(27,36,48,.07)}
-@media(prefers-color-scheme:dark){:root{--bg:#141A22;--ink:#F2F5F8;--mut:#A7B1BD;--card:#1C2430;--line:#2C3643;--sh:none}}
+:root{--or:#FF6600;--or2:#FF8A3D;--gr:#C1C7CE;--bl:#79D1FF;--bg:#FEFEFF;--ink:#1B2430;--mut:#5B6675;--card:#fff;--line:#E3E7EC;--sh:0 2px 10px rgba(27,36,48,.08);--back:linear-gradient(160deg,#FF6600 0%,#FF8A3D 55%,#FFB27A 100%);--win:0 24px 70px rgba(120,45,0,.35),0 2px 0 rgba(255,255,255,.4) inset}
+@media(prefers-color-scheme:dark){:root{--bg:#161C25;--ink:#F2F5F8;--mut:#A7B1BD;--card:#1F2733;--line:#2E3948;--sh:none;--back:linear-gradient(160deg,#7A3300 0%,#B34700 60%,#D9631A 100%);--win:0 24px 70px rgba(0,0,0,.55)}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body{margin:0;min-height:100vh;background:var(--back) fixed;color:var(--ink);font-family:Manrope,"Segoe UI",Arial,sans-serif}
+body:before{content:"";position:fixed;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(121,209,255,.55),rgba(121,209,255,0) 70%);pointer-events:none}
 h1,h2,.nm{font-family:"Open Sans","Segoe UI",Arial,sans-serif}
-.wrap{max-width:880px;margin:0 auto;padding:0 16px 40px}
-header{display:flex;align-items:center;gap:12px;padding:18px 0 8px}
-header img.lg{height:30px;width:auto;background:#fff;border-radius:6px;padding:3px 6px}
-header h1{font-size:22px;margin:0;line-height:1.1}header small{display:block;color:var(--mut);font-weight:500;font-size:12.5px;margin-top:2px}
-.sp{flex:1}.ib{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;min-height:44px;padding:0 14px;font:600 14px Manrope,sans-serif;cursor:pointer}
-.ib.p{background:var(--or);border-color:var(--or);color:#fff}
-#q{width:100%;min-height:48px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:0 16px;font:500 16px Manrope,sans-serif;margin:8px 0 6px}
-#q:focus,.ib:focus-visible,.card:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
-h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:22px 2px 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.card{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--sh);min-height:84px;transition:transform .12s,border-color .12s}
-.card:active{transform:scale(.98)}.card:hover{border-color:var(--or)}
-.ic{flex:none;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,var(--or),#FF8A3D)}
-.ic.b{background:linear-gradient(135deg,#3BA7E0,var(--bl))}.ic.g{background:linear-gradient(135deg,#8E98A6,var(--gr))}
+.win{position:relative;max-width:480px;margin:32px auto;background:var(--bg);border-radius:26px;box-shadow:var(--win);overflow:hidden}
+.band{background:linear-gradient(135deg,var(--or),var(--or2));padding:calc(18px + env(safe-area-inset-top)) 18px 58px;color:#fff;position:relative;overflow:hidden}
+.band:after{content:"";position:absolute;right:-40px;bottom:-70px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.16)}
+header{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+header img.lg{height:30px;width:auto;background:#fff;border-radius:8px;padding:4px 8px}
+header h1{font-size:23px;margin:0;line-height:1.1;color:#fff}header small{display:block;color:rgba(255,255,255,.92);font-weight:600;font-size:12.5px;margin-top:2px}
+.sp{flex:1}.ib{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.2);color:#fff;border-radius:12px;min-height:44px;min-width:44px;padding:0 14px;font:700 14px Manrope,sans-serif;cursor:pointer}
+.ib.p{background:#fff;border-color:#fff;color:var(--or)}
+.body{padding:0 16px 22px;margin-top:-30px;position:relative;z-index:2}
+#q{width:100%;min-height:52px;border:0;background:var(--card);color:var(--ink);border-radius:16px;padding:0 18px;font:600 16px Manrope,sans-serif;margin:0 0 4px;box-shadow:0 8px 22px rgba(27,36,48,.16)}
+#q:focus,.ib:focus-visible,.card:focus-visible,#ed .ib:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+h2{display:flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin:20px 2px 10px}
+h2:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--or)}
+h2.b:before{background:var(--bl)}h2.g:before{background:var(--gr)}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+.card{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--or);border-radius:18px;padding:12px 14px;box-shadow:var(--sh);min-height:80px;transition:transform .12s,box-shadow .12s}
+.card.b{border-left-color:var(--bl)}.card.g{border-left-color:var(--gr)}
+.card:active{transform:scale(.985)}.card:hover{box-shadow:0 8px 20px rgba(255,102,0,.22);transform:translateY(-1px)}
+.card:after{content:"›";margin-left:auto;font-size:28px;line-height:1;color:var(--or);font-weight:700}
+.ic{flex:none;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:27px;background:linear-gradient(135deg,var(--or),var(--or2));box-shadow:0 4px 10px rgba(255,102,0,.3)}
+.ic.b{background:linear-gradient(135deg,#3BA7E0,var(--bl));box-shadow:0 4px 10px rgba(59,167,224,.35)}.ic.g{background:linear-gradient(135deg,#8E98A6,var(--gr));box-shadow:0 4px 10px rgba(142,152,166,.4)}
 .tx{min-width:0}.nm{font-weight:700;font-size:16.5px}.ds{font-size:13px;color:var(--mut);margin-top:2px;line-height:1.3}
-.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px;background:rgba(121,209,255,.25);color:var(--ink)}
-.tag.w{background:rgba(255,102,0,.15)}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px;background:rgba(121,209,255,.3);color:var(--ink)}
+.tag.w{background:rgba(255,102,0,.16)}
 .empty{color:var(--mut);padding:18px 2px}
 #ed{position:fixed;inset:0;background:rgba(10,15,20,.55);display:none;align-items:flex-end;justify-content:center;z-index:9}
-#ed.on{display:flex}.sheet{background:var(--bg);width:100%;max-width:640px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+#ed.on{display:flex}.sheet{background:var(--bg);width:100%;max-width:480px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+@media(min-width:600px){#ed{align-items:center}.sheet{border-radius:22px}}
 .sheet h3{margin:0 0 4px;font:700 18px "Open Sans",sans-serif}.sheet p{color:var(--mut);font-size:13.5px;margin:0 0 12px}
+.sheet .ib{background:var(--card);color:var(--ink);border-color:var(--line)}.sheet .ib.p{background:var(--or);border-color:var(--or);color:#fff}
 .row{margin-bottom:12px}.row label{display:block;font-weight:700;font-size:13.5px;margin-bottom:4px}
 .row input{width:100%;min-height:46px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:0 12px;font:500 15px Manrope,sans-serif}
 .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
-.foot{color:var(--mut);font-size:12.5px;text-align:center;margin-top:28px;line-height:1.5}
+.foot{color:var(--mut);font-size:12.5px;text-align:center;margin:22px 0 0;line-height:1.5}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;display:none;z-index:10}
+@media(max-width:599px){.win{margin:0;border-radius:0;min-height:100vh;box-shadow:none}}
 </style></head>
-<body><div class="wrap">
-<header><img class="lg" src="applus-logo.png" alt="APPLUS+"><div><h1>GS Suite</h1><small>Gestión Social · todas tus aplicaciones</small></div><span class="sp"></span><button class="ib p" id="inst" hidden>Instalar</button><button class="ib" id="cfg" aria-label="Editar direcciones">⚙</button></header>
-<input id="q" type="search" placeholder="Buscar aplicación…" autocomplete="off" aria-label="Buscar aplicación">
+<body><div class="win"><div class="band">
+<header><img class="lg" src="applus-logo.png" alt="APPLUS+"><div><h1>GS Suite</h1><small>Gestión Social · todas tus aplicaciones</small></div><span class="sp"></span><button class="ib p" id="inst" hidden>Instalar</button><button class="ib" id="cfg" aria-label="Editar direcciones">⚙</button></header></div>
+<div class="body"><input id="q" type="search" placeholder="Buscar aplicación…" autocomplete="off" aria-label="Buscar aplicación">
 <main id="main"></main>
 <p class="foot" id="foot"></p>
-</div>
+</div></div>
 <div id="ed" role="dialog" aria-modal="true"><div class="sheet"><h3>Direcciones de las aplicaciones</h3><p>Si una app cambia de dirección, pégala aquí. Se guarda solo en este dispositivo. Déjala vacía para volver a la dirección original.</p><div id="rows"></div><div class="acts"><button class="ib" id="rst">Restablecer todo</button><button class="ib" id="cls">Cerrar</button><button class="ib p" id="sav">Guardar</button></div></div></div>
 <div id="toast"></div>
 <script>
@@ -54,7 +65,7 @@ var GRUPOS=[
   {id:'editor',n:'GS Editor',d:'Control de calidad y corrección de paquetes ZIP de GS Docs.',i:'🛠️',c:'g',u:'https://gsdocumentos.vercel.app/editor-pc/',pc:1},
   {id:'ap',n:'GS Alumbrado Público',d:'Inventario de alumbrado público en campo, con programación por cuadrilla (funciona sin conexión).',i:'💡',c:'b',u:'https://alumbradopublico.vercel.app/'},
   {id:'diag',n:'GS Diagnósticos',d:'Visitas de campo, UNC, CD, suspensiones, informe Word y NITS.',i:'🧭',c:'b',u:'https://gsdiagnosticosapp.vercel.app/'}]},
- {t:'PDF y escaneo',apps:[
+ {t:'PDF y escaneo',k:'b',apps:[
   {id:'studio',n:'GS Studio',d:'Escanear documentos, firmar y editar PDF.',i:'📷',c:'b',u:'https://gsstudio.vercel.app/'}]}
 ];
 var KEY='gs_suite_urls_v1',$=function(s){return document.querySelector(s)};
@@ -68,9 +79,9 @@ function render(){
   GRUPOS.forEach(function(g){
     var l=g.apps.filter(function(a){return !q||(a.n+' '+a.d).toLowerCase().indexOf(q)>-1});
     if(!l.length)return; n+=l.length;
-    h+='<h2>'+esc(g.t)+'</h2><div class="grid">'+l.map(function(a){
+    h+='<h2 class="'+(g.k||'')+'">'+esc(g.t)+'</h2><div class="grid">'+l.map(function(a){
       var u=url(a),pending=a.chk&&!load()[a.id];
-      return '<a class="card" href="'+esc(u)+'" data-id="'+a.id+'"><span class="ic '+a.c+'" aria-hidden="true">'+a.i+'</span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div>';
+      return '<a class="card '+a.c+'" href="'+esc(u)+'" data-id="'+a.id+'"><span class="ic '+a.c+'" aria-hidden="true">'+a.i+'</span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div>';
   });
   $('#main').innerHTML=n?h:'<p class="empty">No hay aplicaciones que coincidan.</p>';
   $('#foot').textContent=navigator.onLine?'Con conexión · las apps se actualizan solas al abrirlas.':'Sin conexión · las apps ya abiertas antes siguen funcionando.';
@@ -84,5 +95,6 @@ $('#rst').onclick=function(){save({});openEd();render();toast('Direcciones origi
 var dp=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;$('#inst').hidden=false});
 $('#inst').onclick=function(){if(!dp)return;dp.prompt();dp.userChoice.finally(function(){dp=null;$('#inst').hidden=true})};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(function(){});
+try{if(matchMedia('(display-mode: standalone)').matches&&screen.width>900&&window.outerWidth>700){var w=520,h=Math.min(820,screen.availHeight-40);window.resizeTo(w,h);window.moveTo(Math.round((screen.availWidth-w)/2),Math.round((screen.availHeight-h)/2))}}catch(e){}
 render();
 </script></body></html>
