@@ -7,10 +7,10 @@
 :root{--or:#FF6600;--or2:#FF8A3D;--gr:#C1C7CE;--bl:#79D1FF;--bg:#FEFEFF;--ink:#1B2430;--mut:#5B6675;--card:#fff;--line:#E3E7EC;--sh:0 2px 10px rgba(27,36,48,.08);--back:linear-gradient(160deg,#FF6600 0%,#FF8A3D 55%,#FFB27A 100%);--win:0 24px 70px rgba(120,45,0,.35),0 2px 0 rgba(255,255,255,.4) inset}
 @media(prefers-color-scheme:dark){:root{--bg:#161C25;--ink:#F2F5F8;--mut:#A7B1BD;--card:#1F2733;--line:#2E3948;--sh:none;--back:linear-gradient(160deg,#7A3300 0%,#B34700 60%,#D9631A 100%);--win:0 24px 70px rgba(0,0,0,.55)}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;min-height:100vh;background:var(--back) fixed;color:var(--ink);font-family:Manrope,"Segoe UI",Arial,sans-serif}
+body{margin:0;min-height:100vh;display:flow-root;background:var(--back) fixed;color:var(--ink);font-family:Manrope,"Segoe UI",Arial,sans-serif}
 body:before{content:"";position:fixed;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(121,209,255,.55),rgba(121,209,255,0) 70%);pointer-events:none}
 h1,h2,.nm{font-family:"Open Sans","Segoe UI",Arial,sans-serif}
-.win{position:relative;max-width:480px;margin:32px auto;background:var(--bg);border-radius:26px;box-shadow:var(--win);overflow:hidden}
+.win{position:relative;max-width:480px;margin:14px auto;background:var(--bg);border-radius:26px;box-shadow:var(--win);overflow:hidden}
 .band{background:linear-gradient(135deg,var(--or),var(--or2));padding:calc(18px + env(safe-area-inset-top)) 18px 58px;color:#fff;position:relative;overflow:hidden}
 .band:after{content:"";position:absolute;right:-40px;bottom:-70px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.16)}
 header{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
@@ -88,8 +88,8 @@ function render(){
   $('#main').innerHTML=n?h:'<p class="empty">No hay aplicaciones que coincidan.</p>';
   $('#foot').textContent=navigator.onLine?'Con conexión · las apps se actualizan solas al abrirlas.':'Sin conexión · las apps ya abiertas antes siguen funcionando.';
 }
-$('#q').addEventListener('input',render);
-window.addEventListener('online',render);window.addEventListener('offline',render);
+$('#q').addEventListener('input',function(){render()});
+window.addEventListener('online',function(){render()});window.addEventListener('offline',function(){render()});
 function openEd(){var o=load();$('#rows').innerHTML=GRUPOS.reduce(function(a,g){return a.concat(g.apps)},[]).map(function(a){return '<div class="row"><label for="u_'+a.id+'">'+esc(a.n)+'</label><input id="u_'+a.id+'" data-id="'+a.id+'" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="'+esc(a.u)+'" value="'+esc(o[a.id]||'')+'"></div>'}).join('');$('#ed').classList.add('on')}
 $('#cfg').onclick=openEd;$('#cls').onclick=function(){$('#ed').classList.remove('on')};
 $('#sav').onclick=function(){var o={},bad=0;document.querySelectorAll('#rows input').forEach(function(i){var v=i.value.trim();if(!v)return;if(v.indexOf('http')!==0&&v.charAt(0)!=='/'){if(/^[\w.-]+\.[a-z]{2,}/i.test(v))v='https://'+v;else{bad++;return}}o[i.dataset.id]=v});if(bad){toast('Hay una dirección que no parece válida');return}save(o);$('#ed').classList.remove('on');render();toast('Direcciones guardadas')};
@@ -97,6 +97,30 @@ $('#rst').onclick=function(){save({});openEd();render();toast('Direcciones origi
 var dp=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;$('#inst').hidden=false});
 $('#inst').onclick=function(){if(!dp)return;dp.prompt();dp.userChoice.finally(function(){dp=null;$('#inst').hidden=true})};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(function(){});
-try{if(matchMedia('(display-mode: standalone)').matches&&screen.width>900&&window.outerWidth>700){var w=520,h=Math.min(820,screen.availHeight-40);window.resizeTo(w,h);window.moveTo(Math.round((screen.availWidth-w)/2),Math.round((screen.availHeight-h)/2))}}catch(e){}
+/* Ajuste a la pantalla: la ventana se dimensiona al contenido y, si la pantalla es pequeña (portátil de 14"), el contenido se reduce para verse completo sin barra de desplazamiento. */
+function fit(){
+  try{
+    var w=document.querySelector('.win');if(!w)return;
+    w.style.zoom=1;
+    if(innerWidth<600)return;
+    var nat=w.offsetHeight,avail=innerHeight-28;
+    var z=nat>avail?Math.max(.6,avail/nat):1;w.style.zoom=z;
+    var sh=document.scrollingElement.scrollHeight;
+    if(z<1&&sh>innerHeight){z=Math.max(.55,z*(innerHeight-2)/sh);w.style.zoom=z}
+  }catch(e){}
+}
+function sizeWindow(){
+  try{
+    if(!matchMedia('(display-mode: standalone)').matches||screen.availWidth<900)return;
+    var w=document.querySelector('.win');w.style.zoom=1;
+    var dW=outerWidth-innerWidth,dH=outerHeight-innerHeight;
+    var tw=Math.min(560,screen.availWidth-40)+dW,th=Math.min(w.offsetHeight+28+dH,screen.availHeight-24);
+    window.resizeTo(tw,th);
+    window.moveTo(Math.round((screen.availWidth-tw)/2),Math.max(0,Math.round((screen.availHeight-th)/2)));
+  }catch(e){}
+}
+var _r=render;render=function(){_r();fit()};
+window.addEventListener('resize',fit);
 render();
+setTimeout(function(){sizeWindow();fit()},250);
 </script></body></html>
