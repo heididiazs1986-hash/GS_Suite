@@ -87,6 +87,15 @@ function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){toast(
 function url(a){var o=load();return (o[a.ref||a.id]||'').trim()||a.u}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function toast(m){var t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display='none'},2600)}
+function abrir(u){
+  /* En Android, con la Suite instalada, los enlaces externos se abren en una ventana limitada (sin opción de instalar).
+     Se abren en Chrome; si una app ya está instalada, Chrome la abre directamente. */
+  try{
+    if(!/Android/i.test(navigator.userAgent)||!(matchMedia('(display-mode: standalone)').matches))return u;
+    var x=new URL(u,location.href);if(x.origin===location.origin)return u;
+    return 'intent://'+x.host+x.pathname+x.search+x.hash+'#Intent;scheme='+x.protocol.replace(':','')+';package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(x.href)+';end';
+  }catch(e){return u}
+}
 function render(){
   var q=$('#q').value.trim().toLowerCase(),h='',n=0;
   GRUPOS.forEach(function(g){
@@ -94,7 +103,7 @@ function render(){
     if(!l.length)return; n+=l.length;
     h+='<section class="grp"><h2 class="'+(g.k||'')+'">'+esc(g.t)+'</h2><div class="grid">'+l.map(function(a){
       var u=url(a),pending=a.chk&&!load()[a.ref||a.id];
-      var A={'diag': 'Diagnosticos', 'cal': 'Calidad_Tecnica', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(u)+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
+      var A={'diag': 'Diagnosticos', 'cal': 'Calidad_Tecnica', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(abrir(u))+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
   });
   $('#main').innerHTML=n?h:'<p class="empty">No hay aplicaciones que coincidan.</p>';
   $('#foot').textContent=navigator.onLine?'Con conexión · las apps se actualizan solas al abrirlas.':'Sin conexión · las apps ya abiertas antes siguen funcionando.';
