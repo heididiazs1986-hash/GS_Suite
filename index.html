@@ -73,6 +73,7 @@ h2.b:before{background:var(--bl)}h2.g:before{background:var(--gr)}
 var GRUPOS=[
  {t:'Campo',apps:[
   {id:'diag',n:'GS Diagnósticos',d:'Visitas de campo, UNC, CD, suspensiones, informe Word y NITS.',i:'🧭',c:'',u:'https://gsdiagnosticosapp.vercel.app/'},
+  {id:'cal',n:'GS Calidad Técnica',d:'Inspección de calidad técnica ESPT con fotos y envío en zip (funciona sin conexión).',i:'✅',c:'',u:'https://calidad-tecnica-espt.vercel.app/'},
   {id:'ap',n:'GS Alumbrado Público',d:'Inventario de alumbrado público en campo, con programación por cuadrilla (funciona sin conexión).',i:'💡',c:'',u:'https://alumbradopublico.vercel.app/'},
   {id:'docs',n:'GS Docs',d:'Registro de usuarios y generación de documentos para radicar solicitudes de legalización de medida.',i:'📄',c:'',u:'https://gsdocumentos.vercel.app/'}]},
  {t:'Documentos y edición',k:'g',apps:[
@@ -93,7 +94,7 @@ function render(){
     if(!l.length)return; n+=l.length;
     h+='<section class="grp"><h2 class="'+(g.k||'')+'">'+esc(g.t)+'</h2><div class="grid">'+l.map(function(a){
       var u=url(a),pending=a.chk&&!load()[a.ref||a.id];
-      var A={'diag': 'Diagnosticos', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(u)+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
+      var A={'diag': 'Diagnosticos', 'cal': 'Calidad_Tecnica', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(u)+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
   });
   $('#main').innerHTML=n?h:'<p class="empty">No hay aplicaciones que coincidan.</p>';
   $('#foot').textContent=navigator.onLine?'Con conexión · las apps se actualizan solas al abrirlas.':'Sin conexión · las apps ya abiertas antes siguen funcionando.';
