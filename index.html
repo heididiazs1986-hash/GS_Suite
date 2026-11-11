@@ -78,8 +78,8 @@ var GRUPOS=[
   {id:'docs',off:1,n:'GS Docs',d:'Registro de usuarios y generación de documentos para radicar solicitudes de legalización de medida.',i:'📄',c:'',u:'https://gsdocumentos.vercel.app/'}]},
  {t:'Documentos y edición',k:'g',apps:[
   {id:'firmas',off:1,n:'GS Firmas',d:'Firma única de líderes comunales aplicada a los 5 documentos.',i:'✍️',c:'g',u:'https://gsdocumentos.vercel.app/gs-firmas/'},
-  {id:'editor',off:0,n:'GS Editor',d:'Control de calidad y corrección de paquetes ZIP de GS Docs.',i:'🛠️',c:'g',u:'https://gsdocumentos-editor-pc.vercel.app/',pc:1},
-  {id:'studio',off:0,n:'GS Studio',d:'Escanear documentos, firmar y editar PDF.',i:'📷',c:'g',u:'https://gsstudio.vercel.app/'}]}
+  {id:'editor',off:2,n:'GS Editor',d:'Control de calidad y corrección de paquetes ZIP de GS Docs.',i:'🛠️',c:'g',u:'https://gsdocumentos-editor-pc.vercel.app/',pc:1},
+  {id:'studio',off:2,n:'GS Studio',d:'Escanear documentos, firmar y editar PDF.',i:'📷',c:'g',u:'https://gsstudio.vercel.app/'}]}
 ];
 var KEY='gs_suite_urls_v1',$=function(s){return document.querySelector(s)};
 function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){return {}}}
@@ -103,7 +103,7 @@ function render(){
     if(!l.length)return; n+=l.length;
     h+='<section class="grp"><h2 class="'+(g.k||'')+'">'+esc(g.t)+'</h2><div class="grid">'+l.map(function(a){
       var u=url(a),pending=a.chk&&!load()[a.ref||a.id];
-      var A={'diag': 'Diagnosticos', 'cal': 'Calidad_Tecnica', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(abrir(u))+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.off?'<span class="tag">✓ Funciona sin conexión</span>':'<span class="tag w">Sin conexión: por confirmar</span>')+' '+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
+      var A={'diag': 'Diagnosticos', 'cal': 'Calidad_Tecnica', 'ap': 'Alumbrado_Publico', 'docs_campo': 'Docs', 'docs': 'Docs', 'firmas': 'Firmas', 'editor': 'Editor', 'studio': 'Studio'};return '<a class="card t '+a.c+'" href="'+esc(abrir(u))+'" data-id="'+a.id+'"><span class="th" style="--bg:url(art-'+A[a.id]+'.webp)" aria-hidden="true"></span><span class="tx"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.d)+'</div>'+(a.off===1?'<span class="tag">✓ Funciona sin conexión</span>':a.off===2?'<span class="tag w">Requiere internet</span>':'<span class="tag w">Sin conexión: por confirmar</span>')+' '+(a.pc?'<span class="tag">Mejor en computador</span>':'')+(pending?' <span class="tag w" title="Si no abre, pulsa ⚙ y pega la dirección real">Dirección por confirmar</span>':'')+'</span></a>'}).join('')+'</div></section>';
   });
   $('#main').innerHTML=n?h:'<p class="empty">No hay aplicaciones que coincidan.</p>';
   $('#foot').textContent=navigator.onLine?'Con conexión · las apps se actualizan solas al abrirlas.':'Sin conexión · las apps ya abiertas antes siguen funcionando.';
